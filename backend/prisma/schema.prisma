@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int         @id @default(autoincrement())
+  username   String      @unique
+  email      String      @unique
+  password   String
+  createdAt  DateTime    @default(now())
+  favorites  Favorite[]
+  ratings    Rating[]
+  reviews    Review[]
+  watchlists Watchlist[]
+}
+
+model Media {
+  id          Int         @id @default(autoincrement())
+  title       String
+  description String?
+  imageUrl    String?
+  releaseDate DateTime?
+  mediaType   MediaType
+  genres      String[]
+  externalId  String
+  source      String
+  favorites   Favorite[]
+  ratings     Rating[]
+  reviews     Review[]
+  watchlists  Watchlist[]
+
+  @@unique([externalId, source])
+}
+
+model Watchlist {
+  id Int @id @default(autoincrement())
+
+  userId Int
+  mediaId Int
+
+  status WatchStatus
+
+  progress Int @default(0)
+
+  startedAt DateTime?
+  completedAt DateTime?
+
+  media Media @relation(fields: [mediaId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, mediaId])
+}
+
+model Rating {
+  id      Int   @id @default(autoincrement())
+  score   Int
+  userId  Int
+  mediaId Int
+  media   Media @relation(fields: [mediaId], references: [id])
+  user    User  @relation(fields: [userId], references: [id])
+
+  @@unique([userId, mediaId])
+}
+
+model Favorite {
+  id      Int   @id @default(autoincrement())
+  userId  Int
+  mediaId Int
+  media   Media @relation(fields: [mediaId], references: [id])
+  user    User  @relation(fields: [userId], references: [id])
+
+  @@unique([userId, mediaId])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  userId    Int
+  mediaId   Int
+  media     Media    @relation(fields: [mediaId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+enum MediaType {
+  ANIME
+  MOVIE
+  TV
+  GAME
+}
+
+enum WatchStatus {
+  PLANNING
+  WATCHING
+  COMPLETED
+  ON_HOLD
+  DROPPED
+}
