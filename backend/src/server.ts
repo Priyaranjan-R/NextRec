@@ -42,7 +42,7 @@ app.use("/api/import", importRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/profile", profileRoutes);
 
-const PORT = 5000;
+const PORT = Number(process.env.PORT) || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
