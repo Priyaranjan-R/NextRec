@@ -59,6 +59,7 @@ function Anime() {
           <MediaCard
             key={anime.mal_id}
             id={anime.mal_id}
+            type="ANIME"
             title={anime.title}
             imageUrl={
               anime.images?.jpg

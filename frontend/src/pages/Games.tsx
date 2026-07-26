@@ -55,6 +55,7 @@ function Games() {
           <MediaCard
             key={game.id}
             id={game.id}
+            type="GAME"
             title={game.name}
             imageUrl={game.background_image}
             description={""}

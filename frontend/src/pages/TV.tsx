@@ -48,6 +48,7 @@ function TV() {
           <MediaCard
             key={show.id}
             id={show.id}
+            type="TV"
             title={show.name}
             imageUrl={
               show.poster_path

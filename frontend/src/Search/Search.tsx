@@ -87,6 +87,7 @@ function Search() {
                 <MediaCard
                   key={item.mal_id}
                   id={item.mal_id}
+                  type="ANIME"
                   title={item.title}
                   imageUrl={
                     item.images?.jpg
@@ -118,6 +119,7 @@ function Search() {
                 <MediaCard
                   key={movie.id}
                   id={movie.id}
+                  type="MOVIE"
                   title={movie.title}
                   imageUrl={
                     movie.poster_path
@@ -150,6 +152,7 @@ function Search() {
                 <MediaCard
                   key={show.id}
                   id={show.id}
+                  type="TV"
                   title={show.name}
                   imageUrl={
                     show.poster_path
@@ -182,6 +185,7 @@ function Search() {
                 <MediaCard
                   key={game.id}
                   id={game.id}
+                  type="GAME"
                   title={game.name}
                   imageUrl={
                     game.background_image || ""

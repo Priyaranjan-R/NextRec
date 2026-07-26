@@ -103,6 +103,7 @@ function Home() {
               <MediaCard
                 key={item.mal_id}
                 id={item.mal_id}
+                type="ANIME"
                 title={item.title}
                 imageUrl={
                   item.images?.jpg
@@ -136,6 +137,7 @@ function Home() {
               <MediaCard
                 key={movie.id}
                 id={movie.id}
+                type="MOVIE"
                 title={movie.title}
                 imageUrl={
                   movie.poster_path

@@ -92,6 +92,7 @@ function Profile() {
             <MediaCard
               key={item.id}
               id={item.media.id}
+              type={item.type}
               title={item.media.title}
               imageUrl={item.media.imageUrl}
               description={
