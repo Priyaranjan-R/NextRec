@@ -11,8 +11,19 @@ router.get("/details/:id", async (req, res) => {
     const { id } = req.params;
 
     const response = await axios.get(
-      `https://api.jikan.moe/v4/anime/${id}`
-    );
+  `https://api.jikan.moe/v4/anime/${id}`,
+  {
+    timeout: 15000,
+    headers: {
+      "User-Agent": "NextRec/1.0",
+      Accept: "application/json",
+    },
+    validateStatus: () => true,
+  }
+);
+
+console.log(response.status);
+console.log(response.data);
 
     res.json(response.data.data);
   } catch (error) {
