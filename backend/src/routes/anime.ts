@@ -3,26 +3,46 @@ import axios from "axios";
 
 const router = Router();
 
+
+async function fetchAnime(id: string) {
+  for (let i = 0; i < 3; i++) {
+    try {
+      const response = await axios.get(
+        `https://api.jikan.moe/v4/anime/${id}`,
+        {
+          timeout: 10000,
+          headers: {
+            "User-Agent": "NextRec/1.0",
+            Accept: "application/json",
+          },
+        }
+      );
+
+      return response.data.data;
+    } catch (err: any) {
+      if (err.response?.status === 504 && i < 2) {
+        console.log(`Retry ${i + 1}...`);
+        await new Promise((r) => setTimeout(r, 1000));
+        continue;
+      }
+
+      throw err;
+    }
+  }
+}
+
 /*
 ANIME DETAILS
 */
 router.get("/details/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const response = await axios.get(
-      `https://api.jikan.moe/v4/anime/${id}`
-    );
-
-    console.log("FULL RESPONSE:");
-    console.log(response.data);
-
-    res.json(response.data.data);
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      error: "Failed to fetch anime details",
+    const anime = await fetchAnime(req.params.id);
+    res.json(anime);
+  } catch (err: any) {
+    res.status(err.response?.status || 500).json({
+      error:
+        err.response?.data?.message ||
+        "Failed to fetch anime details",
     });
   }
 });
